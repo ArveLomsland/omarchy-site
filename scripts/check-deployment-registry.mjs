@@ -18,18 +18,29 @@ if (!response.ok || !body.success) {
     `Cannot inventory deployed Workers: ${JSON.stringify(body.errors)}`,
   )
 }
+const workerName = (code) =>
+  code === 'en' ? 'omarchy' : `omarchy-${code.toLowerCase()}`
+const codes = Object.keys(locales)
 const registered = new Set(
-  Object.keys(locales).map((code) =>
-    code === 'en' ? 'omarchy' : `omarchy-${code.toLowerCase()}`,
-  ),
+  codes.filter((code) => !locales[code].draft).map(workerName),
 )
+// A draft may have a preview Worker; it is not in automatic updates yet.
+const drafts = new Set(
+  codes.filter((code) => locales[code].draft).map(workerName),
+)
+const deployed = body.result.map((worker) => worker.id)
+const previews = deployed.filter((name) => drafts.has(name))
+if (previews.length)
+  console.log(
+    `Draft previews deployed, not updated until published: ${previews.join(', ')}.`,
+  )
 // An edition is named for a language code that check-translations.mjs
 // accepts, like omarchy-da or omarchy-en-au; other omarchy-* Workers,
 // like omarchy-ping, are infrastructure.
 const edition = /^omarchy-[a-z]{2,3}(-[a-z0-9]+)*$/
-const unmanaged = body.result
-  .map((worker) => worker.id)
-  .filter((name) => edition.test(name) && !registered.has(name))
+const unmanaged = deployed.filter(
+  (name) => edition.test(name) && !registered.has(name) && !drafts.has(name),
+)
 if (unmanaged.length) {
   throw new Error(
     `Deployed editions missing from src/i18n/locales.json: ${unmanaged.join(', ')}. Restore them to automatic updates before publishing.`,
