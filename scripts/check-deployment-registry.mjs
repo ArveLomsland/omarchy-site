@@ -34,12 +34,28 @@ if (previews.length)
   console.log(
     `Draft previews deployed, not updated until published: ${previews.join(', ')}.`,
   )
-// An edition is named for a language code that check-translations.mjs
-// accepts, like omarchy-da or omarchy-en-au; other omarchy-* Workers,
-// like omarchy-ping, are infrastructure.
-const edition = /^omarchy-[a-z]{2,3}(-[a-z0-9]+)*$/
+// An edition is named for a canonical language code, like omarchy-da or
+// omarchy-en-au; other omarchy-* Workers, like omarchy-ping, are
+// infrastructure. Canonical, because omarchy-geo reads as Georgian's old
+// three-letter code, which Intl rewrites to ka.
+const languages = new Intl.DisplayNames(['en'], {
+  type: 'language',
+  fallback: 'none',
+})
+const isEdition = (name) => {
+  const code = name.match(/^omarchy-([a-z]{2,3}(-[a-z0-9]+)*)$/)?.[1]
+  if (!code) return false
+  try {
+    return (
+      Boolean(languages.of(code)) &&
+      Intl.getCanonicalLocales(code)[0].toLowerCase() === code
+    )
+  } catch {
+    return false
+  }
+}
 const unmanaged = deployed.filter(
-  (name) => edition.test(name) && !registered.has(name) && !drafts.has(name),
+  (name) => isEdition(name) && !registered.has(name) && !drafts.has(name),
 )
 if (unmanaged.length) {
   throw new Error(
