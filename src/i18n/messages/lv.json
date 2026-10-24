@@ -347,5 +347,14 @@
   "Dragon": "Pūķis",
   "How to report a vulnerability in Omarchy through our HackerOne bug bounty program, or privately by email, and the people credited for doing exactly that.": "Kā ziņot par Omarchy ievainojamību, izmantojot mūsu HackerOne kļūdu atlīdzības programmu, vai privāti pa e-pastu, un cilvēki, kas par tieši to ir saņēmuši pateicību.",
   "SpaceXSI joins as a Founding Corporate Patron with $1.5 million in Grok tokens": "SpaceXSI pievienojas kā dibinošais korporatīvais patrons ar 1,5 miljoniem USD Grok žetonos",
-  "Switzerland": "Šveice"
+  "Switzerland": "Šveice",
+  "Close menu": "Aizvērt izvēlni",
+  "Menu": "Izvēlne",
+  "Open GitHub": "Atvērt GitHub",
+  "Sound off": "Skaņa izslēgta",
+  "Sound on": "Skaņa ieslēgta",
+  "Sound unavailable": "Skaņa nav pieejama",
+  "The sound could not start": "Skaņu neizdevās ieslēgt",
+  "Turn the sound off": "Izslēgt skaņu",
+  "Turn the sound on": "Ieslēgt skaņu"
 }

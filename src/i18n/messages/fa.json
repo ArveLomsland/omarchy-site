@@ -347,5 +347,14 @@
   "Dragon": "اژدها",
   "How to report a vulnerability in Omarchy through our HackerOne bug bounty program, or privately by email, and the people credited for doing exactly that.": "چطور یک آسیب‌پذیری را در Omarchy از طریق برنامه باگ‌بانتی HackerOne ما، یا به‌صورت خصوصی با ایمیل، گزارش کنید، و افرادی که دقیقاً برای همین کار از آن‌ها تقدیر شده‌اند.",
   "SpaceXSI joins as a Founding Corporate Patron with $1.5 million in Grok tokens": "SpaceXSI با 1.5 میلیون USD در قالب توکن‌های Grok به‌عنوان حامی سازمانی مؤسس پیوست",
-  "Switzerland": "سوئیس"
+  "Switzerland": "سوئیس",
+  "Close menu": "بستن منو",
+  "Menu": "منو",
+  "Open GitHub": "باز کردن GitHub",
+  "Sound off": "صدا خاموش",
+  "Sound on": "صدا روشن",
+  "Sound unavailable": "صدا در دسترس نیست",
+  "The sound could not start": "صدا نتوانست شروع شود",
+  "Turn the sound off": "خاموش کردن صدا",
+  "Turn the sound on": "روشن کردن صدا"
 }
