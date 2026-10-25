@@ -67,6 +67,10 @@ class ValidationTests(unittest.TestCase):
         worker.validate_value('$1.5 million', '1 500 000 USD')
         with self.assertRaises(worker.TranslationError):
             worker.validate_value('$1.5 million', '1.600.000 USD')
+        worker.validate_value('$100,000 from each', '各10万USD')
+        worker.validate_value('$1,000,000 to the mission', '100만 USD')
+        with self.assertRaises(worker.TranslationError):
+            worker.validate_value('$100,000 from each', '各100万USD')
         with self.assertRaises(worker.TranslationError):
             worker.validate_value('with $1.5 million in tokens', '160万USD')
         with self.assertRaises(worker.TranslationError):

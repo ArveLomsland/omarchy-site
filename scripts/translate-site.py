@@ -49,8 +49,10 @@ def unmatched_numbers(source_text, target_text):
     values = Counter(round(float(n.replace(',', '')) * CJK_SCALES[unit])
                      for n, unit in CJK_SCALED.findall(target_text))
     values.update(int(re.sub(r'\D', '', n)) for n in GROUPED.findall(target_text))
-    for n, unit in SOURCE_SCALED.findall(source_text):
-        digits, value = n.replace('.', ''), round(float(n) * SOURCE_SCALES[unit.lower()])
+    amounts = [(n.replace('.', ''), round(float(n) * SOURCE_SCALES[unit.lower()]))
+               for n, unit in SOURCE_SCALED.findall(source_text)]
+    amounts += [(re.sub(r'\D', '', n), int(re.sub(r'\D', '', n))) for n in GROUPED.findall(source_text)]
+    for digits, value in amounts:
         if missing[digits] and values[value]:
             missing[digits] -= 1
             values[value] -= 1
