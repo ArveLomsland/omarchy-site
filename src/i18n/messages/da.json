@@ -86,7 +86,7 @@
   "Your editor, integrated": "Din editor, integreret",
   "Neovim is the default, with VSCode, Cursor, Zed, Sublime Text, Helix, Vim, and Emacs ready to install. Pick your favorite and make it the system-wide default.": "Neovim er standarden, og du kan nemt installere VSCode, Cursor, Zed, Sublime Text, Helix, Vim og Emacs. Vælg din favorit, og gør den til standard i hele systemet.",
   "Choose your editor": "Vælg din editor",
-  "Your stack, ready to go": "Dit udviklingsmiljø, klar til brug",
+  "Your stack, ready to go": "Dit udviklingsmiljø, klart til brug",
   "Install Ruby on Rails, Laravel, Node.js, and a long list of other development environments from the Omarchy menu. Mise handles language versions, so each project can use what it needs.": "Installér Ruby on Rails, Laravel, Node.js og en lang række andre udviklingsmiljøer fra Omarchy-menuen. Mise håndterer sprogversionerne, så hvert projekt kan bruge det, det har brug for.",
   "Set up your stack": "Sæt dit udviklingsmiljø op",
   "Four terminals, one choice": "Fire terminaler, frit valg",
