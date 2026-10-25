@@ -22,6 +22,9 @@ _spec.loader.exec_module(news)
 TranslationError = news.TranslationError
 MAX_ITEMS = 20
 MAX_CHARS = 8000
+# A real UI string with prose, amounts and the USD rule, for --smoke.
+SMOKE = ('The people and companies funding the Omacom Foundation. Founding patrons contribute '
+         '$1,000,000 to the mission; distinguished patrons, $100,000.')
 PLACEHOLDERS = re.compile(r'\$?\{\{?\s*[A-Za-z_][\w.]*\s*\}?\}|%(?:\([\w]+\)|\d+\$)?[-+0 #]*\d*(?:\.\d+)?[sdfiouxXeEgGc]')
 LITERALS = re.compile(r'`[^`]+`|https?://[^\s<>"\']+|(?<!\w)--[a-zA-Z][\w-]*|~/[^\s<>"\']+')
 NUMBERS = re.compile(r'\d{1,3}(?:[ \u202f\u00a0]\d{3})+(?:[.,]\d+)?|\d+(?:[.,\u066b\u066c]\d+)*')
@@ -216,17 +219,26 @@ def main():
     parser.add_argument('--concurrency', type=news.positive, default=8)
     parser.add_argument('--limit', type=news.positive, help='maximum number of source strings')
     parser.add_argument('--locale', help='translate only this content language')
+    parser.add_argument('--smoke', metavar='LOCALE',
+                        help='translate one sample string into LOCALE, save nothing, fail unless it validates')
     args = parser.parse_args()
+    model = os.environ.get('MUSE_MODEL', news.MODEL)
     try:
-        pending = collect_pending(ROOT)
         locales = json.loads((ROOT / 'src/i18n/locales.json').read_text(encoding='utf-8'))
         names = {code: data['name'] for code, data in locales.items()
                  if data.get('contentLocale', code) == code and code != 'en'}
+        if args.smoke:
+            if args.smoke not in names:
+                raise TranslationError('unknown content locale')
+            batch = {'locale': args.smoke, 'kind': 'messages', 'items': {'0': SMOKE}}
+            valid, errors = muse_translate(batch, names[args.smoke], model)
+            print(f'{model} → {args.smoke}: {valid.get("0") or errors.get("0")}', flush=True)
+            return 0 if valid else 1
+        pending = collect_pending(ROOT)
         pending = news.select_jobs(pending, names, args.locale, args.limit)
         batches = batch_jobs(pending)
         print(f'Translating {len(pending)} site strings in {len(batches)} batches', flush=True)
-        saved, failed = process_batches(ROOT, batches, names, args.concurrency,
-                                        os.environ.get('MUSE_MODEL', news.MODEL))
+        saved, failed = process_batches(ROOT, batches, names, args.concurrency, model)
         print(f'Saved {saved}; failed {failed}', flush=True)
         return 1 if failed else 0
     except Exception as exc:
