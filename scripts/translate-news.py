@@ -15,7 +15,7 @@ import threading
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
-MODEL = 'muse-spark-1.3-contributor'
+MODEL = 'muse-wonder-1.0'
 TIMEOUT = 300
 RETRIES = 2
 
